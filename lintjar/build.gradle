@@ -1,0 +1,34 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    lintVersion = '25.3.0'
+//    lintVersion = '26.1.4'
+}
+
+dependencies {
+    compile "com.android.tools.lint:lint-api:$lintVersion"
+    compile "com.android.tools.lint:lint-checks:$lintVersion"
+
+    testCompile 'junit:junit:4.12'
+    testCompile "com.android.tools.lint:lint:$lintVersion"
+    testCompile "com.android.tools.lint:lint-tests:$lintVersion"
+    testCompile "com.android.tools:testutils:$lintVersion"
+}
+
+jar {
+    manifest {
+        attributes("Lint-Registry": "com.diy.lint.MyIssueRegistry")
+    }
+}
+
+configurations {
+    lintChecks
+}
+
+dependencies {
+    lintChecks files(jar)
+}
